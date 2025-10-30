@@ -1,0 +1,59 @@
+# Project configuration for Embedded Hallucination Detector
+
+# Paths
+paths:
+  ragtruth_dir: ./RAGTruth
+  processed_dir: ./data/processed
+  checkpoints_dir: ./checkpoints
+  logs_dir: ./logs
+
+# Models
+models:
+  qwen_model_name: Qwen/Qwen3-8B
+  qwen_trust_remote_code: true
+  lettucedetect_model_name: KRLabsOrg/lettucedect-large-modernbert-en-v1
+
+# Feature extraction
+features:
+  use_layers: [ -1, -2, -3 ]
+  projection_dim: 768
+  max_answer_tokens: 512
+
+# Training
+train:
+  seed: 42
+  batch_size: 2
+  grad_accum_steps: 4
+  num_epochs: 3
+  learning_rate: 5e-4
+  weight_decay: 0.01
+  warmup_steps: 200
+  max_train_samples: null
+  max_val_samples: 1000
+  save_every_steps: 1000
+
+# Inference
+inference:
+  threshold: 0.5
+  max_new_tokens: 256
+  enable_thinking: true
+  # Thinking mode defaults
+  thinking:
+    temperature: 0.6
+    top_p: 0.95
+    top_k: 20
+    min_p: 0.0
+    presence_penalty: 1.5
+  # Non-thinking mode defaults
+  non_thinking:
+    temperature: 0.7
+    top_p: 0.8
+    top_k: 20
+    min_p: 0.0
+    presence_penalty: 1.5
+
+# Device
+device:
+  use_bfloat16: true
+  dtype: bfloat16
+  device: cuda
